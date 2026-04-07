@@ -1,0 +1,14 @@
+# Web Framework
+streamlit
+
+# Data Manipulation
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+
+# Data Visualization (for the Jupyter Notebook)
+matplotlib
+seaborn
+jupyter
