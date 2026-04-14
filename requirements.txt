@@ -12,3 +12,8 @@ scikit-learn
 matplotlib
 seaborn
 jupyter
+
+# API Development
+fastapi
+uvicorn
+pydantic
