@@ -1,15 +1,17 @@
 # Medical Insurance Cost Predictor
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.9-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-green)
 ![Streamlit](https://img.shields.io/badge/Streamlit-1.25%2B-red)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.3%2B-orange)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-Decoupled_Microservices-purple)
 
 ## Overview
+
 The Medical Insurance Premium Predictor is an end-to-end Machine Learning application designed to estimate health insurance costs based on individual demographic and lifestyle factors.
 
-This repository tracks the evolution of the project: starting from data exploration and model training in a Jupyter Notebook, and upgrading into a **production-ready, modular software architecture** featuring a decoupled FastAPI backend and an interactive Streamlit frontend.
+This repository tracks the evolution of the project: starting from data exploration and model training in a Jupyter Notebook, and upgrading into a **production-ready, modular software architecture** featuring a decoupled FastAPI backend, an interactive Streamlit frontend, and full Docker containerization.
 
 ---
 
@@ -44,36 +46,49 @@ During the development of this model, extensive data exploration was conducted t
 
 ---
 
+
+
 ## 🛠️ Tech Stack
-* **Language:** Python
+* **Language:** Python 3.9
 * **Front-end UI:** Streamlit
 * **Back-end API:** FastAPI, Uvicorn, Pydantic
 * **Machine Learning:** Scikit-Learn, Joblib
 * **Data Manipulation:** Pandas, NumPy
 * **Data Visualization (EDA):** Matplotlib, Seaborn
+* **DevOps / Deployment:** Docker, Docker Compose
 
 ---
 
 ## 📂 Project Structure
 
 ```text
+├── app/                         # Backend API Package
+│   ├── __init__.py
+│   ├── main.py                  # FastAPI server and REST routes
+│   ├── prediction.py            # Prediction logic
+│   ├── schema.py                # Pydantic data validation schemas
+│   └── utils.py                 # Logging and utility functions
 ├── assets/                      # Images and plots from EDA
 ├── data/
 │   └── insurance.csv            # Raw dataset
+├── logs/                        # Application logs (mounted via Docker)
 ├── models/
-│   └── MIPML.pkl                # Serialized Scikit-Learn Pipeline (Preprocessor + Model)
-├── src/
+│   ├── MIPML.pkl                # Legacy model
+│   └── pipeline.pkl             # Active Serialized Scikit-Learn Pipeline 
+├── src/                         # Machine Learning Modules
 │   ├── data_loader.py           # Data ingestion and train/test splitting
 │   ├── preprocess.py            # ColumnTransformer (Scaling & One-Hot Encoding)
-│   └── train.py                 # Evaluates multiple algorithms and returns the best pipeline
-├── app.py                       # Streamlit application script (Frontend)
-├── main.py                      # FastAPI server and REST routes (Backend)
-├── schema.py                    # Pydantic data validation schemas
-├── train_pipeline.py            # Master orchestrator script to build and save the model
-├── utils.py                     # Custom logging configuration
-├── medical_insurance_prediction.ipynb  # Original Jupyter notebook for EDA
-└── requirements.txt             # Project dependencies
-```
+│   └── train.py                 # Evaluates multiple algorithms and returns the best model
+├── .gitignore                   # Git ignore rules
+├── docker-compose.yml           # Orchestrates the multi-container application
+├── Dockerfile.api               # Configuration for the FastAPI backend container
+├── Dockerfile.ui                # Configuration for the Streamlit frontend container
+├── homee.png                    # UI Screenshot / Asset
+├── medical_insurance_prediction.ipynb # Original EDA and model prototyping notebook
+├── requirements.txt             # Project dependencies
+├── setup.bat                    # Windows setup script
+├── streamlit_frontend.py        # Streamlit application script (Frontend)
+└── train_pipeline.py            # Master orchestrator script to build and save the model
 
 ---
 
@@ -82,11 +97,12 @@ During the development of this model, extensive data exploration was conducted t
 1. **User Input:** The application takes six inputs via the Streamlit UI: Age, Gender, BMI, Children, Smoker status, and Region.
 2. **API Request:** Streamlit packages these inputs into a JSON payload and sends a `POST` request to the FastAPI backend.
 3. **Validation:** FastAPI uses Pydantic to ensure all inputs are valid and within safe ranges.
-4. **Inference:** The validated data is converted to a Pandas DataFrame and passed into the `MIPML.pkl` Pipeline. The pipeline automatically applies the necessary scalers and encoders, makes the prediction using the ensemble regressor, and returns the estimated premium.
+4. **Inference:** The validated data is converted to a Pandas DataFrame and passed into the `pipeline.pkl` Pipeline. The pipeline automatically applies the necessary scalers and encoders, makes the prediction using the ensemble regressor, and returns the estimated premium.
 
 ---
 
 ## 🚀 Installation and Setup
+
 
 **1. Clone the repository:**
 ```bash
@@ -94,32 +110,39 @@ git clone https://github.com/Sh0hil/medical-insurance-cost-predictor
 cd medical-insurance-cost-predictor
 ```
 
-**2. Create a virtual environment (Recommended):**
+
+**2. Build and run the containers:**
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scriptsctivate`
+docker-compose up --build
 ```
+
 
 **3. Install the required dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
+The Streamlit UI will be available at http://localhost:8501, and the FastAPI backend will be running at http://localhost:8000
 
-**4. Train the Model (Optional):**
-If you wish to retrain the model from scratch and generate a new `MIPML.pkl` file, run the master orchestrator script:
+Option 2: Run Locally (Without Docker)
+If you prefer to run the application locally for development purposes:
+
+1. Create and activate a virtual environment:
 ```bash
-python train_pipeline.py
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+```
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
 ```
 
-**5. Start the FastAPI Backend:**
-Open a terminal and run the backend server on port 8000:
+**4. Start the Application (Requires Two Terminals):**
+Terminal 1 (Start the Backend):
 ```bash
-uvicorn main:app --reload
+uvicorn app.main:app --reload --port 8000
+```
+Terminal 2 (Start the Frontend):
+```bash
+streamlit run streamlit_frontend.py
 ```
 
-**6. Start the Streamlit Frontend:**
-Open a **second, separate terminal window** and launch the UI:
-```bash
-streamlit run app.py
-```
-*The application will launch in your default web browser at `http://localhost:8501`.*
