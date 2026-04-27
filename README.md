@@ -59,6 +59,8 @@ During the development of this model, extensive data exploration was conducted t
 
 ---
 
+
+
 ## 📂 Project Structure
 
 ```text
@@ -89,15 +91,18 @@ During the development of this model, extensive data exploration was conducted t
 ├── setup.bat                    # Windows setup script
 ├── streamlit_frontend.py        # Streamlit application script (Frontend)
 └── train_pipeline.py            # Master orchestrator script to build and save the model
-
+```
 ---
 
-## ⚙️ How It Works (The Data Flow)
 
+
+## ⚙️ How It Works (The Data Flow)
+```
 1. **User Input:** The application takes six inputs via the Streamlit UI: Age, Gender, BMI, Children, Smoker status, and Region.
 2. **API Request:** Streamlit packages these inputs into a JSON payload and sends a `POST` request to the FastAPI backend.
 3. **Validation:** FastAPI uses Pydantic to ensure all inputs are valid and within safe ranges.
 4. **Inference:** The validated data is converted to a Pandas DataFrame and passed into the `pipeline.pkl` Pipeline. The pipeline automatically applies the necessary scalers and encoders, makes the prediction using the ensemble regressor, and returns the estimated premium.
+```
 
 ---
 
@@ -145,4 +150,4 @@ Terminal 2 (Start the Frontend):
 ```bash
 streamlit run streamlit_frontend.py
 ```
-
+---
