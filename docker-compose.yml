@@ -3,9 +3,7 @@ version: '3.8'
 services:
   # The Backend API Service
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile.api
+    image: sh0hil/medicalinsurancepremiumprediction-api:latest
     container_name: insurance_api
     ports:
       - "8000:8000"
@@ -14,9 +12,7 @@ services:
 
   # The Frontend UI Service
   ui:
-    build:
-      context: .
-      dockerfile: Dockerfile.ui
+    image: sh0hil/medicalinsurancepremiumprediction-ui:latest
     container_name: insurance_ui
     ports:
       - "8501:8501"

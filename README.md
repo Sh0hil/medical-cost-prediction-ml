@@ -12,6 +12,13 @@
 The Medical Insurance Premium Predictor is an end-to-end Machine Learning application designed to estimate health insurance costs based on individual demographic and lifestyle factors.
 
 This repository tracks the evolution of the project: starting from data exploration and model training in a Jupyter Notebook, and upgrading into a **production-ready, modular software architecture** featuring a decoupled FastAPI backend, an interactive Streamlit frontend, and full Docker containerization.
+It is fully equipped for live deployment on cloud platforms.
+
+## 🌐 Live Demo
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Click_Here-success?style=for-the-badge)](http://13.206.207.81:8501/)
+
+**Test the application live here:** [Medical Insurance Cost Predictor](http://13.206.207.81:8501/)  
+*(Note: Deployed via AWS EC2. If the link is temporarily inactive, the server may be paused to conserve cloud resources.)*
 
 ---
 
@@ -22,6 +29,7 @@ This repository tracks the evolution of the project: starting from data explorat
 * **Training-Serving Skew Prevention:** The preprocessing logic (One-Hot Encoding, Standard Scaling) and the optimal ML algorithm are bundled together and serialized as a single `joblib` Pipeline (`MIPML.pkl`). The exact same data transformations used in training are automatically applied during API inference.
 * **Strict Data Validation:** The backend uses **Pydantic** schemas to enforce strict boundary constraints (e.g., age must be 18-100), intercepting malformed data before it can crash the ML model.
 * **Production Observability:** Custom logging tracks timestamped predictions and API calls to monitor for potential data drift over time.
+* **Cloud-Native Design:** Employs environmental variables (DOCKER_ENV) to seamlessly switch between local development and cloud deployments (like AWS EC2) without altering source code.
 
 ---
 
@@ -55,7 +63,7 @@ During the development of this model, extensive data exploration was conducted t
 * **Machine Learning:** Scikit-Learn, Joblib
 * **Data Manipulation:** Pandas, NumPy
 * **Data Visualization (EDA):** Matplotlib, Seaborn
-* **DevOps / Deployment:** Docker, Docker Compose
+* **DevOps / Deployment:** Docker, Docker Compose, AWS EC2, Docker Hub
 
 ---
 
@@ -150,4 +158,22 @@ Terminal 2 (Start the Frontend):
 ```bash
 streamlit run streamlit_frontend.py
 ```
+
+Option 3: Cloud Deployment (AWS EC2)
+This application is configured for deployment using pre-built images from Docker Hub.
+
+Provision an Ubuntu EC2 instance and ensure Security Groups allow inbound traffic on ports 8000 and 8501.
+
+Install Docker and Docker Compose on the instance.
+
+Update docker-compose.yml to pull from your Docker Hub registry instead of building locally.
+
+Run sudo docker compose up -d to launch the detached containers.
 ---
+
+**Author**
+Shohil Khan
+
+Final-Year B.Tech Computer Science Engineering Student | Aspiring AI & ML Engineer
+
+Passionate about building scalable machine learning systems, generative AI, and end-to-end data pipelines.
