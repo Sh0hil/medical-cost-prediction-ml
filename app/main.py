@@ -6,9 +6,8 @@ import os
 
 app = FastAPI(title="Medical Insurance Premium API")
 
-# =========================================================
+
 # MODEL LOADING WITH DEBUG
-# =========================================================
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, "models", "pipeline.pkl")
 
@@ -24,9 +23,8 @@ except Exception as e:
     print("❌ Model loading failed:", e)
 
 
-# =========================================================
+
 # INPUT SCHEMA
-# =========================================================
 class InsuranceInput(BaseModel):
     age: int
     sex: str
@@ -36,9 +34,8 @@ class InsuranceInput(BaseModel):
     region: str
 
 
-# =========================================================
+
 # ROUTES
-# =========================================================
 @app.get("/")
 def home():
     return {"message": "Medical Insurance Premium Predictor API is running"}

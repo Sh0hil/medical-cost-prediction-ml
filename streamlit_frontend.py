@@ -2,18 +2,15 @@ import streamlit as st
 import requests
 import os
 
-# =========================================================
+
 # PAGE CONFIG
-# =========================================================
 st.set_page_config(
     page_title="Insurance Predictor",
     page_icon="🏥",
     layout="centered"
 )
 
-# =========================================================
 # HEADER
-# =========================================================
 st.title("Medical Insurance Cost Predictor")
 st.markdown("""
 Adjust the demographic and health parameters below to get a real-time estimate of medical insurance premiums.  
@@ -21,9 +18,8 @@ This UI is powered by a FastAPI backend running an optimized Machine Learning pi
 """)
 st.divider()
 
-# =========================================================
+
 # FORM UI
-# =========================================================
 with st.form("prediction_form"):
     st.subheader("Patient Profile")
 
@@ -41,9 +37,8 @@ with st.form("prediction_form"):
 
     submitted = st.form_submit_button("Predict Premium", type="primary", use_container_width=True)
 
-# =========================================================
+
 # API CALL SECTION
-# =========================================================
 if submitted:
 
     input_data = {
@@ -65,17 +60,15 @@ if submitted:
     predict_url = f"{base_url}/predict"
 
     try:
-        # ---------------------------------------------
+        
         # Step 1: Check Backend Health
-        # ---------------------------------------------
         health_response = requests.get(health_url, timeout=5)
 
         if health_response.status_code != 200:
             st.error("Backend health check failed.")
         else:
-            # ---------------------------------------------
+           
             # Step 2: Make Prediction Request
-            # ---------------------------------------------
             with st.spinner("Analyzing patient data..."):
                 response = requests.post(predict_url, json=input_data, timeout=10)
 
