@@ -169,9 +169,12 @@ Install Docker and Docker Compose on the instance.
 Update docker-compose.yml to pull from your Docker Hub registry instead of building locally.
 
 Run sudo docker compose up -d to launch the detached containers.
----
 
-**Author** : 
+
+
+
+**Author** 
+---
 Shohil Khan
 
 Final-Year, B.Tech Computer Science & Engineering Student | Aspiring AI & ML Engineer
