@@ -171,9 +171,9 @@ Update docker-compose.yml to pull from your Docker Hub registry instead of build
 Run sudo docker compose up -d to launch the detached containers.
 ---
 
-**Author**
+**Author** : 
 Shohil Khan
 
-Final-Year B.Tech Computer Science Engineering Student | Aspiring AI & ML Engineer
+Final-Year, B.Tech Computer Science & Engineering Student | Aspiring AI & ML Engineer
 
 Passionate about building scalable machine learning systems, generative AI, and end-to-end data pipelines.
